@@ -1,0 +1,145 @@
+/* Основные стили */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f7f7f7, #e0e0e0);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #2a3a59;
+    padding: 20px 0;
+    box-shadow: 0 4px 10px rgb(0, 0, 0);
+}
+
+nav.main-nav ul {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav.main-nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav.main-nav ul li a {
+    color: #9ad0d7;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+nav.main-nav ul li a:hover {
+    color: #000000;
+    transform: scale(1.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.content {
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    font-size: 2rem;
+    color: #2a3a59;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li a {
+    display: block;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+ul li a:hover {
+    background-color: #f3f3f3;
+    color: #2a3a59;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.links-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.links-container a {
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 10px;
+    background-color: #000000;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.links-container a:hover {
+    background-color: #000000;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+label {
+    margin-top: 10px;
+    color: #333;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #000000;
+}

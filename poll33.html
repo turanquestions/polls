@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игры: Любимый женский персонаж</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="game.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="categories.html">Категории</a></li>
+                <li><a href="profile.html">Профиль</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content">
+        <h2>Кто ваш любимый женский персонаж?</h2>
+        <form id="poll-form">
+            <p>Кто из женских персонажей игр вам больше нравится?</p>
+            <div class="question">
+                <p>1 вопрос</p>
+                <label><input type="radio" name="q1" value="1"> Сэди Адлер (Red Dead Redemption 2)</label><br>
+                <label><input type="radio" name="q1" value="2"> Фрейя (God of War)</label>
+            </div>
+
+            <div class="question">
+                <p>2 вопрос</p>
+                <label><input type="radio" name="q2" value="1"> Элли (The last of us)</label><br>
+                <label><input type="radio" name="q2" value="2"> Панам Пальмер (Cyberpunk 2077)</label>
+            </div>
+
+            <div class="question">
+                <p>3 вопрос</p>
+                <label><input type="radio" name="q3" value="1"> Ху Тао (Genshin Impact)</label><br>
+                <label><input type="radio" name="q3" value="2"> Лина (Dota 2)</label>
+            </div>
+
+            <div class="question">
+                <p>4 вопрос</p>
+                <label><input type="radio" name="q4" value="1"> Аманда (Grand Theft Auto 5)</label><br>
+                <label><input type="radio" name="q4" value="2"> Ситара Дхаван (Watch Dogs 2)</label>
+            </div>
+
+            <div class="question">
+                <p>5 вопрос</p>
+                <label><input type="radio" name="q5" value="1"> Ада Вонг (Resident Evil 4)</label><br>
+                <label><input type="radio" name="q5" value="2"> Линда Карузо (A way out)</label>
+            </div>
+            
+            <div class="question">
+                <p>6 вопрос</p>
+                <label><input type="radio" name="q6" value="1"> Виндикта (Deadlock)</label><br>
+                <label><input type="radio" name="q6" value="2"> Трейсер (Overwatch 2)</label>
+            </div>
+            
+            <div class="question">
+                <p>7 вопрос</p>
+                <label><input type="radio" name="q7" value="1"> Эмма (Sekiro: Shadows die twice)</label><br>
+                <label><input type="radio" name="q7" value="2"> Леди Санджо (Ghost of Tsushima)</label>
+            </div>
+            
+            <div class="question">
+                <p>8 вопрос</p>
+                <label><input type="radio" name="q8" value="1"> Кэра (Detroit: Become Human)</label><br>
+                <label><input type="radio" name="q8" value="2"> Грейс Марс (Heavy Rain)</label>
+            </div>
+            
+            <div class="question">
+                <p>9 вопрос</p>
+                <label><input type="radio" name="q9" value="1"> Мэри Шеперд-Сандерленд (Silent Hill 2)</label><br>
+                <label><input type="radio" name="q9" value="2"> Киран Эстевез (Alan Wake 2)</label>
+            </div>
+            
+            <div class="question">
+                <p>10 вопрос</p>
+                <label><input type="radio" name="q10" value="1"> Зои (Left 4 Dead 2)</label><br>
+                <label><input type="radio" name="q10" value="2"> Эзги (Dying Light 2)</label>
+            </div>
+
+
+            <button type="button" onclick="submitPoll()">Подтвердить</button>
+        </form>
+        <div id="result" style="display: none;">
+            <h3>Результат:</h3>
+            <p id="score">Ваш результат: 0</p>
+        </div>
+    </main>
+
+    <script>
+        let score = 0;
+
+        function submitPoll() {
+            score = 0;
+            
+            for (let i = 1; i <= 10; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) {
+                    score += 1;
+                }
+            }
+
+            document.getElementById('poll-form').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('score').textContent = `Ваш результат: ${score}`;
+        }
+    </script>
+</body>
+</html>
