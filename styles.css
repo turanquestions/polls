@@ -1,145 +1,316 @@
 /* Основные стили */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f7f7f7, #e0e0e0);
-    color: #333;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #2e343b; /* Темно-серый фон */
+  color: #dcdfe1; /* Светлый текст для контраста */
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Шапка */
 header {
-    background-color: #2a3a59;
-    padding: 20px 0;
-    box-shadow: 0 4px 10px rgb(0, 0, 0);
+  background-color: #3a444d; /* Темно-серый с холодным оттенком */
+  padding: 15px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-nav.main-nav ul {
-    list-style: none;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
-nav.main-nav ul li {
-    display: inline;
-    margin: 0 15px;
+.menu-toggle {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
-nav.main-nav ul li a {
-    color: #9ad0d7;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+/* Боковое меню */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px; /* По умолчанию скрыто */
+  width: 250px;
+  height: 100%;
+  background-color: #3a444d; /* Темно-серый фон для бокового меню */
+  color: #fff;
+  padding-top: 20px;
+  transition: left 0.3s ease;
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow-y: auto; /* Прокрутка при большом содержимом */
 }
 
-nav.main-nav ul li a:hover {
-    color: #000000;
-    transform: scale(1.1);
+.side-menu.open {
+  left: 0;
 }
 
-h1, h2 {
-    text-align: center;
-    color: #333;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 20px 0;
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.content {
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+.side-menu ul li {
+  margin: 0;
 }
 
-h2 {
-    font-size: 2rem;
-    color: #2a3a59;
+.side-menu ul li a {
+  display: block;
+  text-decoration: none;
+  color: #dcdfe1; /* Светлый текст */
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.3s, color 0.3s;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
+.side-menu ul li a:hover {
+  background-color: #1e2a32; /* Еще темнее оттенок для ховера */
+  color: #fff;
 }
 
-ul li a {
-    display: block;
-    padding: 15px;
-    margin: 10px 0;
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+/* Выпадающее меню */
+.dropdown {
+  position: relative;
 }
 
-ul li a:hover {
-    background-color: #f3f3f3;
-    color: #2a3a59;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.dropdown-menu {
+  display: none;
+  padding: 0;
+  margin: 0;
+  background-color: #3a444d;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.links-container {
-    text-align: center;
-    margin-top: 30px;
+.dropdown:hover .dropdown-menu {
+  display: block;
 }
 
-.links-container a {
-    display: inline-block;
-    padding: 12px 20px;
-    margin: 10px;
-    background-color: #000000;
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 20px;
+  color: #dcdfe1;
+  text-decoration: none;
 }
 
-.links-container a:hover {
-    background-color: #000000;
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.dropdown-menu li a:hover {
+  background-color: #1e2a32;
 }
 
+/* Основной контент */
+.main-content {
+  display: flex;
+  margin: 20px;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.left-column {
+  flex: 3;
+  padding: 0 20px;
+}
+
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+/* Приветствие */
+.welcome {
+  background-color: #3a444d; /* Темно-серый фон */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.welcome h2 {
+  color: #ecf0f1; /* Белый текст */
+}
+
+/* Категории */
+.categories {
+  margin-top: 20px;
+}
+
+.categories h3 {
+  color: #ecf0f1; /* Белый текст */
+  font-size: 1.5rem;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+/* Карточки категорий */
+.category-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #3a444d; /* Темно-серый фон для карточек */
+  border: 1px solid #5f6a75; /* Более светлый серый для границ */
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s;
+}
+
+.category-card img {
+  width: 15%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.category-card:hover {
+  transform: scale(1.01);
+}
+
+.category-card a {
+  text-decoration: none; /* Убираем подчеркивание */
+  color: inherit; /* Наследуем цвет от родительских элементов */
+  display: block; /* Делаем всю карточку кликабельной */
+}
+
+.category-card a:hover {
+  opacity: 0.8; /* При ховере немного меняем прозрачность для эффекта */
+}
+
+/* Популярные опросы */
+.popular-surveys {
+  background-color: #3a444d;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.popular-surveys h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #ecf0f1;
+}
+
+.popular-surveys ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.popular-surveys ul li {
+  margin-bottom: 10px;
+}
+
+.popular-surveys ul li a {
+  color: #1abc9c; /* Светлый акцентный цвет */
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.popular-surveys ul li a:hover {
+  color: #ecf0f1;
+}
+
+/* Форма подписки */
+.subscribe {
+  background-color: #3a444d;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.subscribe h3 {
+  margin-bottom: 10px;
+  color: #ecf0f1;
+}
+
+.subscribe form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subscribe input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.subscribe button {
+  padding: 10px;
+  background-color: #1abc9c; /* Светлый акцент */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.subscribe button:hover {
+  background-color: #16a085;
+}
+
+/* Форма входа */
 form {
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #3a444d;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 label {
-    margin-top: 10px;
-    color: #333;
+  margin-top: 10px;
+  color: #ecf0f1;
+  font-weight: bold;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
-button {
-    padding: 10px;
-    margin-top: 15px;
-    background-color: #000000;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+button[type="submit"] {
+  margin-top: 15px;
+  background-color: #1abc9c;
 }
 
-button:hover {
-    background-color: #000000;
+button[type="submit"]:hover {
+  background-color: #16a085;
+}
+
+/* Подвал */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #2e343b; /* Глубокий темно-серый для футера */
+  color: white;
+  margin-top: auto;
+}
+
+footer p {
+  color: #ecf0f1;
+  text-decoration: none;
 }
