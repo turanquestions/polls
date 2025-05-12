@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Игры - Сайт опросов</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/game.png" type="image/x-icon" />
+  </head>
+  <body>
+    <header>
+      <button
+        class="menu-toggle"
+        onclick="toggleMenu()"
+        aria-label="Открыть меню"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+      <h1>Сайт опросов</h1>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-label="Основное меню">
+      <ul>
+        <!-- Блок навигации -->
+        <li class="menu-section-title">Навигация</li>
+        <li><a href="/index.html">Главная</a></li>
+        <li><a href="/profile.html">Профиль</a></li>
+
+        <!-- Блок категорий (если категории дублируются с главной, можно сделать ссылки на якоря) -->
+        <li class="menu-section-title">Категории</li>
+        <li><a href="/categories/category_anime.html">Аниме</a></li>
+        <li><a href="/categories/category_games.html">Игры</a></li>
+        <li><a href="/categories/category_music.html">Музыка</a></li>
+
+        <!-- Блок авторизации -->
+        <li class="menu-section-title">Авторизация</li>
+        <li><a href="/login.html">Вход</a></li>
+        <li><a href="/register.html">Регистрация</a></li>
+      </ul>
+    </nav>
+
+    <main class="content" role="main">
+      <section class="welcome">
+        <h2>Игры</h2>
+        <p>Опросы, определяющие ваш игровой вкус</p>
+      </section>
+
+      <section class="polls">
+        <h3>Выберите опрос</h3>
+        <div class="poll-cards">
+          <a href="/polls/games/poll11.html" class="poll-card">
+            <img src="/img/game_poll1.jpg" alt="Любимая игра" />
+            <div class="poll-info">
+              <h4>Любимая игра</h4>
+              <p>Голосуйте за вашу любимую игру всех времён.</p>
+            </div>
+          </a>
+          <a href="/polls/games/poll22.html" class="poll-card">
+            <img src="/img/game_poll2.jpg" alt="Любимый мужской персонаж" />
+            <div class="poll-info">
+              <h4>Любимый мужской персонаж</h4>
+              <p>Выберите персонажа, который завоевал ваше сердце.</p>
+            </div>
+          </a>
+          <a href="/polls/games/poll33.html" class="poll-card">
+            <img src="/img/game_poll3.jpg" alt="Любимый женский персонаж" />
+            <div class="poll-info">
+              <h4>Любимый женский персонаж</h4>
+              <p>Определите, какая героиня для вас самая значимая.</p>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2024 Сайт опросов. Все права защищены.</p>
+    </footer>
+    <script src="/script.js"></script>
+  </body>
+</html>
