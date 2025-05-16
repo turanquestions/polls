@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Опрос: Любимый исполнитель?</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/music.png" type="image/x-icon" />
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="side-menu">
+            ☰
+        </button>
+
+        <h1>Сайт Опросов</h1>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-labelledby="menuToggle">
+      <ul>
+        <li class="menu-section-title">Навигация</li>
+        <li><a href="/index.html" class="active">Главная</a></li>
+
+        <li class="menu-section-title">Категории</li>
+        <li><a href="/categories/category_anime.html">Аниме</a></li>
+        <li><a href="/categories/category_games.html">Игры</a></li>
+        <li><a href="/categories/category_music.html">Музыка</a></li>
+
+        <li class="menu-section-title" id="auth-section-title">Аккаунт</li>
+        <li id="nav-login-item"><a href="/auth/login.html">Вход</a></li>
+        <li id="nav-register-item">
+          <a href="/auth/register.html">Регистрация</a>
+        </li>
+        <li id="nav-admin-item" style="display: none">
+          <a href="/admin.html">Админ Панель</a>
+        </li>
+        <li id="nav-profile-item" style="display: none">
+          <a href="/profile.html">Профиль</a>
+        </li>
+        <!-- Профиль показываем только авторизованным -->
+        <li id="nav-logout-item" style="display: none">
+          <a href="#" id="logout-link">Выход</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <main class="content">
+            <div id="poll-form-container">
+                <h2>Кто ваш любимый исполнитель?</h2>
+                <p class="poll-description"
+                   style="
+                       text-align: center;
+                       margin-bottom: 25px;
+                       color: var(--fluent-text-secondary);
+                   ">
+                    Пройдите этот опрос, чтобы мы узнали ваши музыкальные предпочтения!
+                </p>
+
+                <form id="poll-form">
+                    <div class="question-section">
+                        <p class="question-text">
+                            1. Кто из этих исполнителей вам нравится больше?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q1_artist" value="9mice" />
+                                    <img src="/img/music_poll/artist_option1.jpg"
+                                         alt="9mice"
+                                         class="option-image" />
+                                    <span class="image-caption">9mice</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q1_artist" value="babymelo" />
+                                    <img src="/img/music_poll/artist_option2.jpg"
+                                         alt="Baby Melo"
+                                         class="option-image" />
+                                    <span class="image-caption">Baby Melo</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            2. Ваш выбор: unki или LAZER DIM 700?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q2_artist" value="unki" />
+                                    <img src="/img/music_poll/artist_option3.jpg"
+                                         alt="unki"
+                                         class="option-image" />
+                                    <span class="image-caption">unki</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q2_artist" value="lazerdim700" />
+                                    <img src="/img/music_poll/artist_option4.jpg"
+                                         alt="LAZER DIM 700"
+                                         class="option-image" />
+                                    <span class="image-caption">LAZER DIM 700</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            3. FORTUNA812 или madk1d?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q3_artist" value="fortuna812" />
+                                    <img src="/img/music_poll/artist_option5.jpg"
+                                         alt="FORTUNA812"
+                                         class="option-image" />
+                                    <span class="image-caption">FORTUNA812</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q3_artist" value="madk1d" />
+                                    <img src="/img/music_poll/artist_option6.jpg"
+                                         alt="madk1d"
+                                         class="option-image" />
+                                    <span class="image-caption">madk1d</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            4. Kai Angel или MORGENSHTERN?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q4_artist" value="kaiangel" />
+                                    <img src="/img/music_poll/artist_option7.jpg"
+                                         alt="Kai Angel"
+                                         class="option-image" />
+                                    <span class="image-caption">Kai Angel</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q4_artist" value="morgenshtern" />
+                                    <img src="/img/music_poll/artist_option8.jpg"
+                                         alt="MORGENSHTERN"
+                                         class="option-image" />
+                                    <span class="image-caption">MORGENSHTERN</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            5. Heronwater или Big Baby Tape?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q5_artist" value="heronwater" />
+                                    <img src="/img/music_poll/artist_option9.jpg"
+                                         alt="Heronwater"
+                                         class="option-image" />
+                                    <span class="image-caption">Heronwater</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q5_artist" value="bigbabytape" />
+                                    <img src="/img/music_poll/artist_option10.jpg"
+                                         alt="Big Baby Tape"
+                                         class="option-image" />
+                                    <span class="image-caption">Big Baby Tape</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="poll-navigation" style="margin-top: 30px">
+                    <button type="button" id="prev-question-btn" class="button-style">
+                        Назад
+                    </button>
+                    <button type="button" id="next-question-btn" class="button-style">
+                        Далее
+                    </button>
+                    <button type="button"
+                            id="submit-poll-btn"
+                            class="button-style"
+                            style="
+                                display: none;
+                                background-color: var(--fluent-accent-secondary);
+                            ">
+                        Завершить опрос
+                    </button>
+                </div>
+
+                <div id="result"
+                     style="
+                         display: none;
+                         margin-top: 30px;
+                         padding: 20px;
+                         background-color: var(--fluent-card-bg);
+                         border-radius: var(--fluent-border-radius);
+                         box-shadow: var(--fluent-shadow-depth-1);
+                         text-align: center;
+                     ">
+                    <h3>Спасибо за участие!</h3>
+                    <p id="score"
+                       style="
+                           font-size: 1.2rem;
+                           color: var(--fluent-text-primary);
+                           margin-top: 10px;
+                       ">
+                        Ваш результат обрабатывается...
+                    </p>
+                    <a href="/categories/category_music.html"
+                       class="button-style"
+                       style="margin-top: 20px">Вернуться к опросам по Музыке</a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                &copy; <span id="currentYear"></span> Сайт Опросов. Все права
+                защищены.
+            </p>
+        </footer>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/polls.js"></script>
+</body>
+</html>

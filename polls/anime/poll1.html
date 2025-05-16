@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Опрос: Любимое аниме?</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/anime.png" type="image/x-icon" />
+
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="side-menu">
+            ☰
+        </button>
+        <h1>Сайт Опросов</h1>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-labelledby="menuToggle">
+      <ul>
+        <li class="menu-section-title">Навигация</li>
+        <li><a href="/index.html" class="active">Главная</a></li>
+
+        <li class="menu-section-title">Категории</li>
+        <li><a href="/categories/category_anime.html">Аниме</a></li>
+        <li><a href="/categories/category_games.html">Игры</a></li>
+        <li><a href="/categories/category_music.html">Музыка</a></li>
+
+        <li class="menu-section-title" id="auth-section-title">Аккаунт</li>
+        <li id="nav-login-item"><a href="/auth/login.html">Вход</a></li>
+        <li id="nav-register-item">
+          <a href="/auth/register.html">Регистрация</a>
+        </li>
+        <li id="nav-admin-item" style="display: none">
+          <a href="/admin.html">Админ Панель</a>
+        </li>
+        <li id="nav-profile-item" style="display: none">
+          <a href="/profile.html">Профиль</a>
+        </li>
+        <!-- Профиль показываем только авторизованным -->
+        <li id="nav-logout-item" style="display: none">
+          <a href="#" id="logout-link">Выход</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <main class="content">
+            <div id="poll-form-container">
+                <h2>Какое ваше любимое аниме?</h2>
+                <p class="poll-description"
+                   style="
+                       text-align: center;
+                       margin-bottom: 25px;
+                       color: var(--fluent-text-secondary);
+                   ">
+                    Пройдите этот опрос, чтобы мы узнали ваши предпочтения в мире аниме!
+                </p>
+
+                <form id="poll-form">
+                    <div class="question-section">
+                        <p class="question-text">
+                            1. Какое из этих аниме вам нравится больше?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q1_anime" value="kimetsu_no_yaiba" />
+                                    <img src="/img/anime_poll/anime_option1.jpg"
+                                         alt="Клинок рассекающий демонов"
+                                         class="option-image" />
+                                    <span class="image-caption">Клинок рассекающий демонов</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q1_anime" value="jigokuraku" />
+                                    <img src="/img/anime_poll/anime_option2.jpg"
+                                         alt="Адский рай"
+                                         class="option-image" />
+                                    <span class="image-caption">Адский рай</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            2. Ваш выбор: Cyberpunk Edgerunners или Akame ga Kill?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q2_anime" value="cyberpunk" />
+                                    <img src="/img/anime_poll/anime_option3.jpg"
+                                         alt="Киберпанк"
+                                         class="option-image" />
+                                    <span class="image-caption">Киберпанк</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q2_anime" value="akame_ga_kill" />
+                                    <img src="/img/anime_poll/anime_option4.jpg"
+                                         alt="Убийца Акаме"
+                                         class="option-image" />
+                                    <span class="image-caption">Убийца Акаме</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            3. Death Note или Hunter x Hunter?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q3_anime" value="death_note" />
+                                    <img src="/img/anime_poll/anime_option5.jpg"
+                                         alt="Тетрадь смерти"
+                                         class="option-image" />
+                                    <span class="image-caption">Тетрадь смерти</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q3_anime" value="hunter_x_hunter" />
+                                    <img src="/img/anime_poll/anime_option6.jpg"
+                                         alt="Хантер х хантер"
+                                         class="option-image" />
+                                    <span class="image-caption">Хантер х хантер</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            4. Jujutsu Kaisen или The Promised Neverland?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q4_anime" value="jujutsu_kaisen" />
+                                    <img src="/img/anime_poll/anime_option7.jpg"
+                                         alt="Магическая битва"
+                                         class="option-image" />
+                                    <span class="image-caption">Магическая битва</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q4_anime" value="the_promised_neverland" />
+                                    <img src="/img/anime_poll/anime_option8.jpg"
+                                         alt="Обещанный неверленд"
+                                         class="option-image" />
+                                    <span class="image-caption">Обещанный неверленд</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            5. Tokyo Ghoul или Chainsaw Man?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q5_anime" value="tokyo_ghoul" />
+                                    <img src="/img/anime_poll/anime_option9.jpg"
+                                         alt="Токийский гуль"
+                                         class="option-image" />
+                                    <span class="image-caption">Токийский гуль</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q5_anime" value="chainsaw_man" />
+                                    <img src="/img/anime_poll/anime_option10.jpg"
+                                         alt="Человек бензопила"
+                                         class="option-image" />
+                                    <span class="image-caption">Человек бензопила</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            6. Blue Lock или Kuroko's Basketball?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q6_anime" value="blue_lock" />
+                                    <img src="/img/anime_poll/anime_option11.jpg"
+                                         alt="Блю лок"
+                                         class="option-image" />
+                                    <span class="image-caption">Блю лок</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q6_anime" value="kurokos_basketball" />
+                                    <img src="/img/anime_poll/anime_option12.jpg"
+                                         alt="Баскетбол Куроко"
+                                         class="option-image" />
+                                    <span class="image-caption">Баскетбол Куроко</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            7. Tokyo Revengers или Your Name?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q7_anime" value="tokyo_revengers" />
+                                    <img src="/img/anime_poll/anime_option13.jpg"
+                                         alt="Токийские мстители"
+                                         class="option-image" />
+                                    <span class="image-caption">Токийские мстители</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q7_anime" value="your_name" />
+                                    <img src="/img/anime_poll/anime_option14.jpg"
+                                         alt="Твоё имя"
+                                         class="option-image" />
+                                    <span class="image-caption">Твоё имя</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            8. One Piece или Bleach?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q8_anime" value="one_piece" />
+                                    <img src="/img/anime_poll/anime_option15.jpg"
+                                         alt="Ван пис"
+                                         class="option-image" />
+                                    <span class="image-caption">Ван пис</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q8_anime" value="bleach" />
+                                    <img src="/img/anime_poll/anime_option16.jpg"
+                                         alt="Блич"
+                                         class="option-image" />
+                                    <span class="image-caption">Блич</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            9. Evangelion или Darling in the Franxx?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q9_anime" value="evangelion" />
+                                    <img src="/img/anime_poll/anime_option17.jpg"
+                                         alt="Евангелион"
+                                         class="option-image" />
+                                    <span class="image-caption">Евангелион</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q9_anime" value="darling_in_the_franxx" />
+                                    <img src="/img/anime_poll/anime_option18.jpg"
+                                         alt="Милый во франксе"
+                                         class="option-image" />
+                                    <span class="image-caption">Милый во франксе</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">
+                            10. Dororo или Black Clover?
+                        </p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q10_anime" value="dororo" />
+                                    <img src="/img/anime_poll/anime_option19.jpg"
+                                         alt="Дороро"
+                                         class="option-image" />
+                                    <span class="image-caption">Дороро</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q10_anime" value="black_clover" />
+                                    <img src="/img/anime_poll/anime_option20.jpg"
+                                         alt="Черный клевер"
+                                         class="option-image" />
+                                    <span class="image-caption">Черный клевер</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="poll-navigation" style="margin-top: 30px">
+                    <button type="button" id="prev-question-btn" class="button-style">
+                        Назад
+                    </button>
+                    <button type="button" id="next-question-btn" class="button-style">
+                        Далее
+                    </button>
+                    <button type="button"
+                            id="submit-poll-btn"
+                            class="button-style"
+                            style="
+                                display: none;
+                                background-color: var(--fluent-accent-secondary);
+                            ">
+                        Завершить опрос
+                    </button>
+                </div>
+
+                <div id="result"
+                     style="
+                         display: none;
+                         margin-top: 30px;
+                         padding: 20px;
+                         background-color: var(--fluent-card-bg);
+                         border-radius: var(--fluent-border-radius);
+                         box-shadow: var(--fluent-shadow-depth-1);
+                         text-align: center;
+                     ">
+                    <h3>Спасибо за участие!</h3>
+                    <p id="score"
+                       style="
+                           font-size: 1.2rem;
+                           color: var(--fluent-text-primary);
+                           margin-top: 10px;
+                       ">
+                        Ваш результат обрабатывается...
+                    </p>
+                    <a href="/categories/category_anime.html"
+                       class="button-style"
+                       style="margin-top: 20px">Вернуться к опросам по Аниме</a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                &copy; <span id="currentYear"></span> Сайт Опросов. Все права
+                защищены.
+            </p>
+        </footer>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/polls.js"></script>
+</body>
+</html>

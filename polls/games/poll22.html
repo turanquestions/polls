@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Опрос: Ваш любимый мужской персонаж?</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/game.png" type="image/x-icon" />
+
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="side-menu">
+            ☰
+        </button>
+        <h1>Сайт опросов</h1>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-labelledby="menuToggle">
+      <ul>
+        <li class="menu-section-title">Навигация</li>
+        <li><a href="/index.html" class="active">Главная</a></li>
+
+        <li class="menu-section-title">Категории</li>
+        <li><a href="/categories/category_anime.html">Аниме</a></li>
+        <li><a href="/categories/category_games.html">Игры</a></li>
+        <li><a href="/categories/category_music.html">Музыка</a></li>
+
+        <li class="menu-section-title" id="auth-section-title">Аккаунт</li>
+        <li id="nav-login-item"><a href="/auth/login.html">Вход</a></li>
+        <li id="nav-register-item">
+          <a href="/auth/register.html">Регистрация</a>
+        </li>
+        <li id="nav-admin-panel-item" style="display: none">
+          <a href="#" id="nav-admin-panel-link">Админ Панель</a>
+        </li>
+        <li id="nav-profile-item" style="display: none">
+          <a href="/profile.html">Профиль</a>
+        </li>
+        <!-- Профиль показываем только авторизованным -->
+        <li id="nav-logout-item" style="display: none">
+          <a href="#" id="logout-link">Выход</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <main class="content">
+            <div id="poll-form-container">
+                <h2>Кто ваш любимый мужской персонаж?</h2>
+                <p class="poll-description"
+                    style="text-align: center; margin-bottom: 25px; color: var(--fluent-text-secondary);">Выберите персонажа,
+                    который вам нравится больше!</p>
+
+                <form id="poll-form">
+                    <div class="question-section">
+                        <p class="question-text">1. Какой из этих персонажей вам нравится больше?</p>
+                        <div class="options-row">
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q1" value="arthur_morgan" />
+                                    <img src="/img/games_poll/lovely_male/male_option1.jpg" alt="Артур Морган (Red Dead Redemption 2)"
+                                        class="option-image" />
+                                    <span class="image-caption">Артур Морган (Red Dead Redemption 2)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q1" value="kratos" />
+                                    <img src="/img/games_poll/lovely_male/male_option2.jpg" alt="Кратос (God of War)" class="option-image" />
+                                    <span class="image-caption">Кратос (God of War)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">2. Ваш выбор: Джоэл или Ви?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q2" value="joel" />
+                                    <img src="/img/games_poll/lovely_male/male_option3.jpg" alt="Джоэл (The last of us)" class="option-image" />
+                                    <span class="image-caption">Джоэл (The last of us)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q2" value="v" />
+                                    <img src="/img/games_poll/lovely_male/male_option4.jpg" alt="Ви (Cyberpunk 2077)" class="option-image" />
+                                    <span class="image-caption">Ви (Cyberpunk 2077)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">3. Что предпочитаете: Дилюк или Антимаг?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q3" value="diluc" />
+                                    <img src="/img/games_poll/lovely_male/male_option5.jpg" alt="Дилюк (Genshin Impact)" class="option-image" />
+                                    <span class="image-caption">Дилюк (Genshin Impact)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q3" value="antimage" />
+                                    <img src="/img/games_poll/lovely_male/male_option6.jpg" alt="Антимаг (Dota 2)" class="option-image" />
+                                    <span class="image-caption">Антимаг (Dota 2)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">4. Кто из этих персонажей круче?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q4" value="michael" />
+                                    <img src="/img/games_poll/lovely_male/male_option7.jpg" alt="Майкл (Grand Theft Auto 5)" class="option-image" />
+                                    <span class="image-caption">Майкл (Grand Theft Auto V)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q4" value="wrench" />
+                                    <img src="/img/games_poll/lovely_male/male_option8.jpg" alt="Ренч (Watch Dogs 2)" class="option-image" />
+                                    <span class="image-caption">Ренч (Watch Dogs 2)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">5. Леон Кеннеди или Винсент?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q5" value="leon_kennedy" />
+                                    <img src="/img/games_poll/lovely_male/male_option9.jpg" alt="Леон Кеннеди (Resident Evil 4)"
+                                        class="option-image" />
+                                    <span class="image-caption">Леон Кеннеди (Resident Evil 4)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q5" value="vincent" />
+                                    <img src="/img/games_poll/lovely_male/male_option10.jpg" alt="Винсент (A way out)" class="option-image" />
+                                    <span class="image-caption">Винсент (A way out)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">6. Инфернус (Deadlock) или Батист (Overwatch 2)?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q6" value="infernus" />
+                                    <img src="/img/games_poll/lovely_male/male_option11.jpg" alt="Си Джей (GTA: San Andreas)" class="option-image" />
+                                    <span class="image-caption">Си Джей (GTA: San Andreas)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q6" value="baptiste" />
+                                    <img src="/img/games_poll/lovely_male/male_option12.jpg" alt="Батист (Overwatch 2)" class="option-image" />
+                                    <span class="image-caption">Батист (Overwatch 2)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">7. Гэнитиро Асина или Сакай Дзин?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q7" value="genichiro_ashina" />
+                                    <img src="/img/games_poll/lovely_male/male_option13.jpg" alt="Гэнитиро Асина (Sekiro: Shadows die twice)"
+                                        class="option-image" />
+                                    <span class="image-caption">Гэнитиро Асина (Sekiro: Shadows Die Twice)</span>
+                                </label>
+                            </div>
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q7" value="sakai_jin" />
+                                    <img src="/img/games_poll/lovely_male/male_option14.jpg" alt="Сакай Дзин (Ghost of Tsushima)"
+                                        class="option-image" />
+                                    <span class="image-caption">Сакай Дзин (Ghost of Tsushima)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">8. Коннор или Норман Джейден?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q8" value="connor" />
+                                    <img src="/img/games_poll/lovely_male/male_option15.jpg" alt="Коннор (Detroit: Become Human)"
+                                        class="option-image" />
+                                    <span class="image-caption">Коннор (Detroit: Become Human)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q8" value="norman_jayden" />
+                                    <img src="/img/games_poll/lovely_male/male_option16.jpg" alt="Норман Джейден (Heavy Rain)"
+                                        class="option-image" />
+                                    <span class="image-caption">Норман Джейден (Heavy Rain)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">9. Джеймс Сандерленд или Алекс Кейси?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q9" value="james_sunderland" />
+                                    <img src="/img/games_poll/lovely_male/male_option17.jpg" alt="Джеймс Сандерленд (Silent Hill 2)"
+                                        class="option-image" />
+                                    <span class="image-caption">Джеймс Сандерленд (Silent Hill 2)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q9" value="alex_casey" />
+                                    <img src="/img/games_poll/lovely_male/male_option18.jpg" alt="Алекс Кейси (Alan Wake 2)" class="option-image" />
+                                    <span class="image-caption">Алекс Кейси (Alan Wake 2)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <p class="question-text">10. Билл или Эйден Колдуэлл?</p>
+                        <div class="options-row">
+                             <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q10" value="bill" />
+                                    <img src="/img/games_poll/lovely_male/male_option19.jpg" alt="Билл (Left 4 Dead 2)" class="option-image" />
+                                    <span class="image-caption">Билл (Left 4 Dead 2)</span>
+                                </label>
+                            </div>
+                            <div class="option image-option">
+                                <label>
+                                    <input type="radio" name="q10" value="aiden_caldwell" />
+                                    <img src="/img/games_poll/lovely_male/male_option20.jpg" alt="Эйден Колдуэлл (Dying Light 2)"
+                                        class="option-image" />
+                                    <span class="image-caption">Эйден Колдуэлл (Dying Light 2)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="poll-navigation" style="margin-top: 30px;">
+                    <button type="button" id="prev-question-btn" class="button-style">Назад</button>
+                    <button type="button" id="next-question-btn" class="button-style">Далее</button>
+                    <button type="button" id="submit-poll-btn" class="button-style"
+                        style="display:none; background-color: var(--fluent-accent-secondary);">Завершить опрос</button>
+                </div>
+
+                <div id="result"
+                    style="display: none; margin-top:30px; padding: 20px; background-color: var(--fluent-card-bg); border-radius: var(--fluent-border-radius); box-shadow: var(--fluent-shadow-depth-1); text-align:center;">
+                    <h3>Спасибо за участие!</h3>
+                    <p id="score" style="font-size: 1.2rem; color: var(--fluent-text-primary); margin-top:10px;">Ваш результат
+                        обрабатывается...</p>
+                    <a href="/categories/category_games.html" class="button-style" style="margin-top: 20px;">Вернуться к
+                        опросам по Играм</a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; <span id="currentYear"></span> Сайт опросов. Все права защищены.</p>
+        </footer>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>    
+    <script src="/js/script.js"></script>
+    <script src="/js/polls.js"></script>
+</body>
+</html>

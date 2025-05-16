@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Панель Администратора - Сайт опросов</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/admin_icon.png" type="image/x-icon" /> <!-- Нужна иконка -->
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        /* Дополнительные стили для админки, если нужны */
+        .admin-container { padding: 20px; max-width: 900px; margin: 20px auto; }
+        .admin-section { margin-bottom: 30px; background-color: var(--card-bg); padding: 20px; border-radius: var(--fluent-border-radius); box-shadow: var(--shadow-depth-1); }
+        .admin-section h2 { margin-top: 0; color: var(--accent-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 20px;}
+        #create-poll-form label { margin-top: 15px; display: block; font-weight: 500; }
+        #create-poll-form input[type="text"],
+        #create-poll-form textarea,
+        #create-poll-form select,
+        #create-poll-form input[type="number"] { width: 100%; margin-top: 5px; }
+        #questions-container .question-block { border: 1px solid var(--border-color); padding: 15px; margin-top: 15px; border-radius: var(--fluent-border-radius); }
+        #questions-container .option-block input[type="text"] { width: calc(100% - 70px); margin-right: 10px; }
+        .remove-btn { background-color: #e74c3c; color: white; border:none; padding: 5px 10px; border-radius: var(--fluent-border-radius); cursor: pointer; font-size:0.8rem;}
+        .add-btn { background-color: var(--accent-secondary); margin-top:10px; }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <header>
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="side-menu">☰</button>
+        <h1>Админ Панель</h1>
+        <button class="theme-switcher" id="themeSwitcher" aria-label="Переключить тему"><span class="moon-icon">🌙</span><span class="sun-icon">☀️</span></button>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-labelledby="menuToggle">
+        <ul>
+            <li class="menu-section-title">Навигация</li>
+            <li><a href="/index.html">На сайт</a></li>
+            <li id="nav-admin-panel-link" style="display: none;"><a href="/admin.html" class="active">Админ Панель</a></li>
+            <li id="nav-profile-item" style="display: none;"><a href="/profile.html">Профиль</a></li>
+            <li id="nav-logout-item" style="display: none;"><a href="#" id="logout-link">Выход</a></li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <main class="content admin-container" id="admin-main-content" style="display:none;">
+            <section id="loading-admin-panel" class="admin-section" style="text-align: center;">
+                <p>Загрузка данных администратора...</p>
+            </section>
+
+            <section id="access-denied-admin-panel" class="admin-section" style="display:none; text-align: center; background-color: #e74c3c; color:white;">
+                <h2>Доступ запрещен!</h2>
+                <p>У вас нет прав для просмотра этой страницы.</p>
+                <a href="/index.html" class="button-style" style="background-color: white; color: #333; margin-top:15px;">Вернуться на сайт</a>
+            </section>
+
+            <div id="admin-panel-content" style="display:none;">
+                <section class="admin-section">
+                    <h2>Создать новый опрос</h2>
+                    <form id="create-poll-form">
+                        <div>
+                            <label for="poll-title">Название опроса:</label>
+                            <input type="text" id="poll-title" name="poll-title" required>
+                        </div>
+                        <div>
+                            <label for="poll-description">Описание опроса:</label>
+                            <textarea id="poll-description" name="poll-description" rows="3" required></textarea>
+                        </div>
+                        <div>
+                            <label for="poll-category">Категория:</label>
+                            <select id="poll-category" name="poll-category" required>
+                                <option value="anime">Аниме</option>
+                                <option value="games">Игры</option>
+                                <option value="music">Музыка</option>
+                                <option value="other">Другое</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="poll-points-completion">Очки за прохождение:</label>
+                            <input type="number" id="poll-points-completion" name="poll-points-completion" value="10" min="0" required>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="poll-is-locked" name="poll-is-locked" style="margin-right: 5px; vertical-align: middle;">
+                            <label for="poll-is-locked" style="display: inline; font-weight: normal;">Закрытый опрос (требует очков для доступа)</label>
+                        </div>
+                        <div id="points-to-unlock-container" style="display:none;">
+                            <label for="poll-points-unlock">Очков для разблокировки:</label>
+                            <input type="number" id="poll-points-unlock" name="poll-points-unlock" value="50" min="0">
+                        </div>
+                        <hr style="margin: 20px 0;">
+                        <h3>Вопросы:</h3>
+                        <div id="questions-container">
+                            <!-- Сюда будут добавляться вопросы динамически -->
+                        </div>
+                        <button type="button" id="add-question-btn" class="add-btn button-style">Добавить вопрос</button>
+                        <hr style="margin: 20px 0;">
+                        <button type="submit" class="button-style">Создать опрос</button>
+                    </form>
+                </section>
+
+                <!-- Другие секции админ-панели (Управление пользователями, Управление опросами и т.д.) могут быть добавлены сюда -->
+                 <section class="admin-section">
+                    <h2>Существующие опросы (скоро)</h2>
+                    <p>Здесь будет список опросов для редактирования/удаления.</p>
+                </section>
+            </div>
+        </main>
+        <footer style="text-align:center; padding: 20px; margin-top:auto; background-color: var(--footer-bg); color: var(--footer-text);">
+            <p>&copy; <span id="currentYear"></span> Админ Панель - Сайт Опросов</p>
+        </footer>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script src="/script.js"></script> <!-- Основной скрипт для меню, темы, auth state -->
+    <script src="/js/admin.js"></script> <!-- Скрипт для логики админ-панели -->
+</body>
+</html>

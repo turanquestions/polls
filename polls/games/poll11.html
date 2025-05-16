@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Опрос: Ваша любимая игра?</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/game.png" type="image/x-icon" />
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+  </head>
+
+  <body>
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Открыть меню"
+        aria-expanded="false"
+        aria-controls="side-menu"
+      >
+        ☰
+      </button>
+
+      <h1>Сайт Опросов</h1>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-labelledby="menuToggle">
+      <ul>
+        <li class="menu-section-title">Навигация</li>
+        <li><a href="/index.html" class="active">Главная</a></li>
+
+        <li class="menu-section-title">Категории</li>
+        <li><a href="/categories/category_anime.html">Аниме</a></li>
+        <li><a href="/categories/category_games.html">Игры</a></li>
+        <li><a href="/categories/category_music.html">Музыка</a></li>
+
+        <li class="menu-section-title" id="auth-section-title">Аккаунт</li>
+        <li id="nav-login-item"><a href="/auth/login.html">Вход</a></li>
+        <li id="nav-register-item">
+          <a href="/auth/register.html">Регистрация</a>
+        </li>
+        <li id="nav-admin-panel-item" style="display: none">
+          <a href="#" id="nav-admin-panel-link">Админ Панель</a>
+        </li>
+        <li id="nav-profile-item" style="display: none">
+          <a href="/profile.html">Профиль</a>
+        </li>
+        <!-- Профиль показываем только авторизованным -->
+        <li id="nav-logout-item" style="display: none">
+          <a href="#" id="logout-link">Выход</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="content-wrapper">
+      <main class="content">
+        <div id="poll-form-container">
+          <h2>Какая ваша любимая игра?</h2>
+          <p
+            class="poll-description"
+            style="
+              text-align: center;
+              margin-bottom: 25px;
+              color: var(--fluent-text-secondary);
+            "
+          >
+            Пройдите этот опрос, чтобы мы узнали ваши предпочтения в мире
+            видеоигр!
+          </p>
+
+          <form id="poll-form">
+            <div class="question-section">
+              <p class="question-text">
+                1. Какая из этих игр визуально вам нравится больше?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q1_visual" value="rdr2_visual" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option1.jpg"
+                      alt="Скриншот Red Dead Redemption 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Red Dead Redemption 2</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q1_visual" value="gow_visual" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option2.jpg"
+                      alt="Скриншот God of War"
+                      class="option-image"
+                    />
+                    <span class="image-caption">God of War</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                2. Ваш выбор: The Last of Us или Cyberpunk 2077?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q2" value="tlou" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option3.jpg"
+                      alt="Скриншот The Last of Us"
+                      class="option-image"
+                    />
+                    <span class="image-caption">The Last of Us</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q2" value="cp2077" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option4.jpg"
+                      alt="Скриншот Cyberpunk 2077"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Cyberpunk 2077</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                3. Что предпочитаете: Counter-Strike 2 или Dota 2?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q3" value="cs2" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option5.jpg"
+                      alt="Скриншот Counter-Strike 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Counter-Strike 2</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q3" value="dota2" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option6.jpg"
+                      alt="Скриншот Dota 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Dota 2</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                4. Grand Theft Auto V или Watch Dogs 2?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q4" value="gta5" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option7.jpg"
+                      alt="Скриншот Grand Theft Auto V"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Grand Theft Auto V</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q4" value="wd2" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option8.jpg"
+                      alt="Скриншот Watch Dogs 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Watch Dogs 2</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                5. Классика выживания: Minecraft или Terraria?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q5" value="minecraft" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option9.jpg"
+                      alt="Скриншот Minecraft"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Minecraft</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q5" value="terraria" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option10.jpg"
+                      alt="Скриншот Terraria"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Terraria</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                6. Новый шутер от Valve Deadlock или суровый Rust?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q6" value="deadlock" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option11.jpg"
+                      alt="Скриншот Deadlock"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Deadlock</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q6" value="rust" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option12.jpg"
+                      alt="Скриншот Rust"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Rust</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                7. Искусство боя: Sekiro: Shadows Die Twice или Ghost of
+                Tsushima?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q7" value="sekiro" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option13.jpg"
+                      alt="Скриншот Sekiro: Shadows Die Twice"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Sekiro: Shadows Die Twice</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q7" value="ghost" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option14.jpg"
+                      alt="Скриншот Ghost of Tsushima"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Ghost of Tsushima</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                8. Интерактивное кино: Detroit: Become Human или Heavy Rain?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q8" value="detroit" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option15.jpg"
+                      alt="Скриншот Detroit: Become Human"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Detroit: Become Human</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q8" value="heavyrain" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option16.jpg"
+                      alt="Скриншот Heavy Rain"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Heavy Rain</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                9. Хоррор на выживание: Silent Hill 2 или Alan Wake 2?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q9" value="sh2" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option17.jpg"
+                      alt="Скриншот Silent Hill 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Silent Hill 2</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q9" value="aw2" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option18.jpg"
+                      alt="Скриншот Alan Wake 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Alan Wake 2</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-section">
+              <p class="question-text">
+                10. Кооперативный зомби-шутер: Left 4 Dead 2 или Dying Light 2?
+              </p>
+              <div class="options-row">
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q10" value="l4d2" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option19.jpg"
+                      alt="Скриншот Left 4 Dead 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Left 4 Dead 2</span>
+                  </label>
+                </div>
+                <div class="option image-option">
+                  <label>
+                    <input type="radio" name="q10" value="dl2" />
+                    <img
+                      src="/img/games_poll/lovely_games/game_option20.jpg"
+                      alt="Скриншот Dying Light 2"
+                      class="option-image"
+                    />
+                    <span class="image-caption">Dying Light 2</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="poll-navigation" style="margin-top: 30px">
+            <button type="button" id="prev-question-btn" class="button-style">
+              Назад
+            </button>
+            <button type="button" id="next-question-btn" class="button-style">
+              Далее
+            </button>
+            <button
+              type="button"
+              id="submit-poll-btn"
+              class="button-style"
+              style="
+                display: none;
+                background-color: var(--fluent-accent-secondary);
+              "
+            >
+              Завершить опрос
+            </button>
+          </div>
+
+          <div
+            id="result"
+            style="
+              display: none;
+              margin-top: 30px;
+              padding: 20px;
+              background-color: var(--fluent-card-bg);
+              border-radius: var(--fluent-border-radius);
+              box-shadow: var(--fluent-shadow-depth-1);
+              text-align: center;
+            "
+          >
+            <h3>Спасибо за участие!</h3>
+            <p
+              id="score"
+              style="
+                font-size: 1.2rem;
+                color: var(--fluent-text-primary);
+                margin-top: 10px;
+              "
+            >
+              Ваш результат обрабатывается...
+            </p>
+            <a
+              href="/categories/category_games.html"
+              class="button-style"
+              style="margin-top: 20px"
+              >Вернуться к опросам по Играм</a
+            >
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>
+          &copy; <span id="currentYear"></span> Сайт Опросов. Все права
+          защищены.
+        </p>
+      </footer>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/polls.js"></script>
+  </body>
+</html>

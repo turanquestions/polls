@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Аниме: Любимый женский персонаж - Сайт опросов</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/anime.png" type="image/x-icon" />
+
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="side-menu">
+            ☰
+        </button>
+        <h1>Сайт опросов</h1>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-labelledby="menuToggle">
+      <ul>
+        <li class="menu-section-title">Навигация</li>
+        <li><a href="/index.html" class="active">Главная</a></li>
+
+        <li class="menu-section-title">Категории</li>
+        <li><a href="/categories/category_anime.html">Аниме</a></li>
+        <li><a href="/categories/category_games.html">Игры</a></li>
+        <li><a href="/categories/category_music.html">Музыка</a></li>
+
+        <li class="menu-section-title" id="auth-section-title">Аккаунт</li>
+        <li id="nav-login-item"><a href="/auth/login.html">Вход</a></li>
+        <li id="nav-register-item">
+          <a href="/auth/register.html">Регистрация</a>
+        </li>
+        <li id="nav-admin-item" style="display: none">
+          <a href="/admin.html">Админ Панель</a>
+        </li>
+        <li id="nav-profile-item" style="display: none">
+          <a href="/profile.html">Профиль</a>
+        </li>
+        <!-- Профиль показываем только авторизованным -->
+        <li id="nav-logout-item" style="display: none">
+          <a href="#" id="logout-link">Выход</a>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="content" role="main">
+        <section class="welcome">
+            <h2>Любимый женский персонаж</h2>
+            <p>Кто из женских персонажей аниме вам больше нравится?</p>
+        </section>
+
+        <form id="poll-form">
+            <div class="question-section active">
+                <p class="question-text">1 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q1_option1">
+                            <input type="radio" id="q1_option1" name="q1" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/shinobu.jpg"
+                                alt="Шинобу (Клинок рассекающий демонов)"
+                                class="option-image"
+                            />
+                            <span>Шинобу (Клинок рассекающий демонов)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q1_option2">
+                            <input type="radio" id="q1_option2" name="q1" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/sagiri.jpg"
+                                alt="Сагири (Адский рай)"
+                                class="option-image"
+                            />
+                            <span>Сагири (Адский рай)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">2 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q2_option1">
+                            <input type="radio" id="q2_option1" name="q2" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/lucy.jpg"
+                                alt="Люси (Киберпанк)"
+                                class="option-image"
+                            />
+                            <span>Люси (Киберпанк)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q2_option2">
+                            <input type="radio" id="q2_option2" name="q2" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/akame.jpg"
+                                alt="Акаме (Убийца Акаме)"
+                                class="option-image"
+                            />
+                            <span>Акаме (Убийца Акаме)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">3 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q3_option1">
+                            <input type="radio" id="q3_option1" name="q3" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/misa.jpg"
+                                alt="Миса (Тетрадь смерти)"
+                                class="option-image"
+                            />
+                            <span>Миса (Тетрадь смерти)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q3_option2">
+                            <input type="radio" id="q3_option2" name="q3" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/bisky.jpg"
+                                alt="Бискет (Хантер х хантер)"
+                                class="option-image"
+                            />
+                            <span>Бискет (Хантер х хантер)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">4 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q4_option1">
+                            <input type="radio" id="q4_option1" name="q4" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/nobara.jpg"
+                                alt="Нобара (Магическая битва)"
+                                class="option-image"
+                            />
+                            <span>Нобара (Магическая битва)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q4_option2">
+                            <input type="radio" id="q4_option2" name="q4" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/emma.jpg"
+                                alt="Эмма (Обещанный неверленд)"
+                                class="option-image"
+                            />
+                            <span>Эмма (Обещанный неверленд)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">5 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q5_option1">
+                            <input type="radio" id="q5_option1" name="q5" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/touka.jpg"
+                                alt="Тоука (Токийский гуль)"
+                                class="option-image"
+                            />
+                            <span>Тоука (Токийский гуль)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q5_option2">
+                            <input type="radio" id="q5_option2" name="q5" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/makima.jpg"
+                                alt="Макима (Человек бензопила)"
+                                class="option-image"
+                            />
+                            <span>Макима (Человек бензопила)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">6 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q6_option1">
+                            <input type="radio" id="q6_option1" name="q6" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/anri.jpg"
+                                alt="Анри (Блю лок)"
+                                class="option-image"
+                            />
+                            <span>Анри (Блю лок)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q6_option2">
+                            <input type="radio" id="q6_option2" name="q6" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/momoi.jpg"
+                                alt="Момои (Баскетбол Куроко)"
+                                class="option-image"
+                            />
+                            <span>Момои (Баскетбол Куроко)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">7 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q7_option1">
+                            <input type="radio" id="q7_option1" name="q7" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/hinata.jpg"
+                                alt="Хината (Токийские мстители)"
+                                class="option-image"
+                            />
+                            <span>Хината (Токийские мстители)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q7_option2">
+                            <input type="radio" id="q7_option2" name="q7" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/mitsuha.jpg"
+                                alt="Мицуха (Твоё имя)"
+                                class="option-image"
+                            />
+                            <span>Мицуха (Твоё имя)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">8 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q8_option1">
+                            <input type="radio" id="q8_option1" name="q8" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/nami.jpg"
+                                alt="Нами (Ван пис)"
+                                class="option-image"
+                            />
+                            <span>Нами (Ван пис)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q8_option2">
+                            <input type="radio" id="q8_option2" name="q8" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/rukia.jpg"
+                                alt="Рукия (Блич)"
+                                class="option-image"
+                            />
+                            <span>Рукия (Блич)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">9 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q9_option1">
+                            <input type="radio" id="q9_option1" name="q9" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/rei.jpg"
+                                alt="Рей (Евангелион)"
+                                class="option-image"
+                            />
+                            <span>Рей (Евангелион)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q9_option2">
+                            <input type="radio" id="q9_option2" name="q9" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/02.jpg"
+                                alt="02 (Милый во франксе)"
+                                class="option-image"
+                            />
+                            <span>02 (Милый во франксе)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <p class="question-text">10 вопрос: Кто из женских персонажей вам больше нравится?</p>
+                <div class="options-row">
+                    <div class="option">
+                        <label for="q10_option1">
+                            <input type="radio" id="q10_option1" name="q10" value="1" />
+                            <img
+                                src="/img/anime_pool/женщины/dororo.jpg"
+                                alt="Дороро (Дороро)"
+                                class="option-image"
+                            />
+                            <span>Дороро (Дороро)</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label for="q10_option2">
+                            <input type="radio" id="q10_option2" name="q10" value="2" />
+                            <img
+                                src="/img/anime_pool/женщины/noelle.jpg"
+                                alt="Ноэль (Черный клевер)"
+                                class="option-image"
+                            />
+                            <span>Ноэль (Черный клевер)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="poll-navigation" style="margin-top: 30px;">
+                <button type="button" id="prev-question-btn" class="button-style">Назад</button>
+                <button type="button" id="next-question-btn" class="button-style">Далее</button>
+                <button type="button" id="submit-poll-btn" class="button-style" style="display:none; background-color: var(--fluent-accent-secondary);">Завершить опрос</button>
+            </div>
+
+        </form>
+
+        <div id="result" style="display: none; margin-top:30px; padding: 20px; background-color: var(--fluent-card-bg); border-radius: var(--fluent-border-radius); box-shadow: var(--fluent-shadow-depth-1); text-align:center;">
+            <h3>Спасибо за участие!</h3>
+            <p id="score" style="font-size: 1.2rem; color: var(--fluent-text-primary); margin-top:10px;">Ваш результат обрабатывается...</p>
+            <a href="/categories/category_anime.html" class="button-style" style="margin-top: 20px;">Вернуться к опросам по Аниме</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; <span id="currentYear"></span> Сайт опросов. Все права защищены.</p>
+    </footer>
+    
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/polls.js"></script>
+</body>
+</html>
