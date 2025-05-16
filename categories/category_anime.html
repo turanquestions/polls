@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Аниме - Сайт опросов</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/img/anime.png" type="image/x-icon" />
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div> <!-- Оверлей для бокового меню -->
+
+    <header>
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="side-menu">
+            ☰
+        </button>
+        <h1>Сайт Опросов</h1>
+        <button class="theme-switcher" id="themeSwitcher" aria-label="Переключить на темную тему">
+            <span class="moon-icon">🌙</span>
+            <span class="sun-icon">☀️</span>
+        </button>
+    </header>
+
+    <nav class="side-menu" id="side-menu" aria-labelledby="menuToggle">
+      <ul>
+        <li class="menu-section-title">Навигация</li>
+        <li><a href="/index.html" class="active">Главная</a></li>
+
+        <li class="menu-section-title">Категории</li>
+        <li><a href="/categories/category_anime.html">Аниме</a></li>
+        <li><a href="/categories/category_games.html">Игры</a></li>
+        <li><a href="/categories/category_music.html">Музыка</a></li>
+
+        <li class="menu-section-title" id="auth-section-title">Аккаунт</li>
+        <li id="nav-login-item"><a href="/auth/login.html">Вход</a></li>
+        <li id="nav-register-item">
+          <a href="/auth/register.html">Регистрация</a>
+        </li>
+        <li id="nav-admin-item" style="display: none">
+          <a href="/admin.html">Админ Панель</a>
+        </li>
+        <li id="nav-profile-item" style="display: none">
+          <a href="/profile.html">Профиль</a>
+        </li>
+        <!-- Профиль показываем только авторизованным -->
+        <li id="nav-logout-item" style="display: none">
+          <a href="#" id="logout-link">Выход</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <main class="content" role="main">
+            <!-- Используем hero-секцию для заголовка категории -->
+            <section class="hero" data-category="anime"> <!-- data-category для стилизации фона, если есть в CSS -->
+                <div class="hero-overlay">
+                    <h2>Категория: Аниме</h2>
+                    <p>Опросы, определяющие ваш вкус в мире японской анимации.</p>
+                </div>
+            </section>
+
+            <section class="polls-section"> <!-- Используем polls-section для единообразия -->
+                <h3 class="section-title">Доступные опросы</h3>
+                <div class="poll-cards-grid"> <!-- Используем grid для карточек -->
+                    <a href="/polls/anime/poll1.html" class="poll-card">
+                        <img src="/img/anime_poll1.jpg" alt="Обложка опроса 'Любимое аниме'" class="poll-card-image" />
+                        <div class="poll-info">
+                            <h4>Любимое аниме</h4>
+                            <p class="poll-description">Голосуйте за ваш самый любимый аниме-сериал или фильм.</p>
+                            <!-- Можно добавить кнопку, если карточка не вся кликабельна -->
+                            <!-- <span class="button-style" style="margin-top: auto; align-self: flex-start;">Пройти опрос</span> -->
+                        </div>
+                    </a>
+                    <a href="/polls/anime/poll2.html" class="poll-card">
+                        <img src="/img/anime_poll2.jpg" alt="Обложка опроса 'Любимый мужской персонаж'" class="poll-card-image" />
+                        <div class="poll-info">
+                            <h4>Любимый мужской персонаж</h4>
+                            <p class="poll-description">Выберите героя, который вдохновляет вас больше всего.</p>
+                        </div>
+                    </a>
+                    <a href="/polls/anime/poll3.html" class="poll-card">
+                        <img src="/img/anime_poll3.jpg" alt="Обложка опроса 'Любимый женский персонаж'" class="poll-card-image" />
+                        <div class="poll-info">
+                            <h4>Любимый женский персонаж</h4>
+                            <p class="poll-description">Голосуйте за героиню, которая запомнилась вам больше всего.</p>
+                        </div>
+                    </a>
+                    <!-- Добавьте больше карточек опросов здесь, если нужно -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; <span id="currentYear"></span> Сайт Опросов. Все права защищены.</p>
+        </footer>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
